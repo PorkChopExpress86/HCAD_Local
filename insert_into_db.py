@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 def strip_list(l):
@@ -18,8 +19,10 @@ def insert_data(text_file_path, table_name, num_of_cols, cur):
     inserts = "?," * num_of_cols
     inserts = inserts[:-1]
     line_num = 0
-    with open(text_file_path) as f:
+    with open(text_file_path, 'rb') as f:
         for line in f:
+            # Some files are not ift-8 and need to be decoded
+            line = line.decode(errors='replace')
             line_list = line.split("\t")
             line_list = tuple(strip_list(line_list))
             if line_num != 0:
@@ -151,27 +154,26 @@ def load_data():
                         jurs TEXT);"""
         )
 
+        # relative filepaths
+        dirname = os.path.dirname(__file__)
+
         con.commit()
         print("\tSucessfully created tables")
 
         print("\tInserting building res data...")
-        insert_data(r"extracted_data\building_res.txt", "building_res", 31, cur)
+        insert_data(os.path.join(dirname, "extracted_data/building_res.txt"), "building_res", 31, cur)
 
         print("\tInserting real_acct data...")
-        insert_data(r"extracted_data\real_acct.txt", "real_acct", 71, cur)
+        insert_data(os.path.join(dirname, "extracted_data/real_acct.txt"), "real_acct", 71, cur)
 
         con.commit()
 
         cur.close()
 
-
     except sqlite3.Error as error:
-
         print("Failed to insert data into sqlite table", error)
 
     finally:
-
         if con:
             con.close()
-
             print("\tThe SQLite connection is closed")
