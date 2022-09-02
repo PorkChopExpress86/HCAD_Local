@@ -26,9 +26,7 @@ def insert_data(text_file_path, table_name, num_of_cols, cur):
             line_list = line.split("\t")
             line_list = tuple(strip_list(line_list))
             if line_num != 0:
-                cur.executemany(
-                    f"INSERT INTO {table_name} VALUES ({inserts})", (line_list,)
-                )
+                cur.executemany(f"INSERT INTO {table_name} VALUES ({inserts})", (line_list,))
             else:
                 line_num += 1
 
@@ -43,8 +41,7 @@ def load_data():
 
         cur.execute("DROP TABLE IF EXISTS building_res;")
 
-        cur.execute(
-            """CREATE TABLE IF NOT EXISTS building_res (
+        cur.execute("""CREATE TABLE IF NOT EXISTS building_res (
                                                 acct INTEGER,
                                                 property_use_cs TEXT,
                                                 bld_num INTEGER NOT NULL,
@@ -76,11 +73,9 @@ def load_data():
                                                 rcnld NUMERIC,
                                                 size_index NUMERIC,
                                                 lump_sum_adj INTEGER,
-                                                FOREIGN KEY (acct) REFERENCES real_acct(acct));"""
-        )
+                                                FOREIGN KEY (acct) REFERENCES real_acct(acct));""")
         cur.execute("DROP TABLE IF EXISTS real_acct;")
-        cur.execute(
-            """CREATE TABLE IF NOT EXISTS real_acct(
+        cur.execute("""CREATE TABLE IF NOT EXISTS real_acct(
                         acct INTEGER PRIMARY KEY,
                         yr INTEGER,
                         mailto TEXT,
@@ -151,8 +146,7 @@ def load_data():
                         lgl_2 TEXT,
                         lgl_3 TEXT,
                         lgl_4 TEXT,
-                        jurs TEXT);"""
-        )
+                        jurs TEXT);""")
 
         # relative filepaths
         dirname = os.path.dirname(__file__)
