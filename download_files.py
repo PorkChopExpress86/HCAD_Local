@@ -1,5 +1,6 @@
-import wget
 import requests
+import wget
+
 from clean_dirs import remove_files
 
 
@@ -15,7 +16,7 @@ def download_files_wget():
         year = "2022"
         url = f"https://download.hcad.org/data/CAMA/{year}/{file}"
         print(f"\tDownloading {file} for {year}...")
-        wget.download(url=url, out='zipped_data')
+        wget.download(url=url, out='zipped_data', )
 
 
 def download_files_requests():
@@ -30,7 +31,7 @@ def download_files_requests():
         year = "2022"
         url = f"https://download.hcad.org/data/CAMA/{year}/{file}"
         print(f"\tDownloading {file} for {year}...")
-        data = requests.get(url)
+        data = requests.get(url, allow_redirects=True)
 
         with open(f"zipped_data/{file}", "wb") as f:
             f.write(data.content)

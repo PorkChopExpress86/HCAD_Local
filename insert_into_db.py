@@ -1,5 +1,5 @@
-import sqlite3
 import os
+import sqlite3
 
 
 def strip_list(l):
@@ -158,7 +158,7 @@ def load_data():
         dirname = os.path.dirname(__file__)
 
         con.commit()
-        print("\tSucessfully created tables")
+        print("\tSuccessfully created tables")
 
         print("\tInserting building res data...")
         insert_data(os.path.join(dirname, "extracted_data/building_res.txt"), "building_res", 31, cur)
